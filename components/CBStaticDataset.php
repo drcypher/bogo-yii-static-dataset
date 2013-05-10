@@ -364,11 +364,20 @@ class CBStaticDataset extends CComponent
 		// Determine search unique attributes
 		$uniqueAttributes = array();
 		foreach ($this->uniqueSearchAttributes as $attributeName) {
+			if (!isset($inputRecord[$attributeName])) {
+				throw new CException('Unique search attribute "'.$attributeName.'" of "'.$this->modelClass.'" not found in input record');
+			}
+
 			$uniqueAttributes[$attributeName] = $inputRecord[$attributeName];
 		}
 
+		// Determine verbose attributes
 		$verboseAttributes = '';
 		if (!empty($this->verboseAttributes)) {
+			if (!isset($inputRecord[$attributeName])) {
+				throw new CException('Verbose attribute "'.$attributeName.'" of "'.$this->modelClass.'" not found in input record');
+			}
+
 			foreach ($this->verboseAttributes as $attributeName) {
 				$verboseAttributes .= ($verboseAttributes ? ', ' : '').$attributeName.': '.$inputRecord[$attributeName];
 			}
